@@ -30,10 +30,10 @@ my $style = $parser->parse_file('justweather.xsl');
 my $stylesheet = $xslt->parse_stylesheet($style);
 my $weather_html = $stylesheet->transform($source);
 
-open(RESULTS_HANDLE, ">$path") or die 'Could not save html';
+open my $RESULTS_HANDLE, '>', $path or die 'Could not save html';
 
-print RESULTS_HANDLE $stylesheet->output_string($weather_html);
+print $RESULTS_HANDLE $stylesheet->output_string($weather_html);
 
-close(RESULTS_HANDLE);
+close $RESULTS_HANDLE;
 
 exit 0;
