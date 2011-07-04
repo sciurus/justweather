@@ -12,12 +12,12 @@ use XML::LibXSLT;
 my $justweather = sub {
 
     my $env = shift;
-    my $reg = Plack::Request->new($env);
+    my $req = Plack::Request->new($env);
     my $zip = $req->param('zip');
 
     # move to configuration file
     my $delay = 60 * 1;
-    my $url   = "http://weather.yahooapis.com/forecastrss?p=$ARGV[0]";
+    my $url   = "http://weather.yahooapis.com/forecastrss?p=$zip";
 
     my $path  = "$zip.html";
     #if ( -e $path ) {
@@ -48,12 +48,12 @@ my $justweather = sub {
     $res->body($html);
 
     return $res->finalize;
-}
+};
 
 use HTTP::Server::PSGI;
 my $server = HTTP::Server::PSGI->new(
   host => "127.0.0.1",
   port => 9091,
   timeout => 120,
-)
+);
 $server->run($justweather);
