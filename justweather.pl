@@ -25,7 +25,7 @@ my $parser = XML::LibXML->new();
 my $xslt = XML::LibXSLT->new();
 
 my $source = $parser->parse_string($weather_rss);
-my $style = $parser->parse_file('weather.xsl');
+my $style = $parser->parse_file('justweather.xsl');
 
 my $stylesheet = $xslt->parse_stylesheet($style);
 my $weather_html = $stylesheet->transform($source);
