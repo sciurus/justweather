@@ -9,7 +9,7 @@ use Plack::Response;
 use XML::LibXML;
 use XML::LibXSLT;
 
-my $justweather = sub {
+my $app = sub {
 
     my $env = shift;
     my $req = Plack::Request->new($env);
@@ -43,11 +43,3 @@ my $justweather = sub {
 
     return $res->finalize;
 };
-
-use HTTP::Server::PSGI;
-my $server = HTTP::Server::PSGI->new(
-  host => "127.0.0.1",
-  port => 9091,
-  timeout => 120,
-);
-$server->run($justweather);
