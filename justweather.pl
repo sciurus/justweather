@@ -13,22 +13,16 @@ my $justweather = sub {
 
     my $env = shift;
     my $req = Plack::Request->new($env);
+    print "Processing request\n\n\n";
     my $zip = $req->param('zip');
 
-    # move to configuration file
-    my $delay = 60 * 1;
-    my $url   = "http://weather.yahooapis.com/forecastrss?p=$zip";
+    die "Invalid zip code $zip" unless $zip =~ /\d{5}/;
 
-    my $path  = "$zip.html";
-    #if ( -e $path ) {
-    #    my @stats = stat($path);
-    #    if ( time - $stats[9] < $delay ) {
-    #        # read and return cached response
-    #    }
-    #}
+    my $url   = "http://weather.yahooapis.com/forecastrss?p=$zip";
+    my $first = substr($zip, 0, 1);
+    my $path  = "cache/$first/$zip.html";
 
     my $weather_rss = get($url);
-
     die "Couldn't get $url" unless defined $weather_rss;
 
     my $parser     = XML::LibXML->new();
@@ -39,7 +33,7 @@ my $justweather = sub {
     my $xml        = $stylesheet->transform($source);
     my $html       = $stylesheet->output_as_chars($xml); 
 
-    open my $fh, '>', $path or die 'Could not save html';
+    open my $fh, '>', $path or die "Could not write cache $path";
     print $fh $html;
     close $fh;
 
