@@ -1,5 +1,7 @@
 #!/usr/bin/env perl
 
+package JustWeather;
+
 use strict;
 use warnings;
 
@@ -9,9 +11,16 @@ use Plack::Response;
 use XML::LibXML;
 use XML::LibXSLT;
 
-my $app = sub {
+sub new {
+    my $self = {};
+    bless $self;
+    return $self;
+}
 
+sub run {
+    my $self = shift;
     my $env = shift;
+
     my $req = Plack::Request->new($env);
     print "Processing request\n\n\n";
     my $zip = $req->param('zip');
@@ -42,4 +51,6 @@ my $app = sub {
     $res->body($html);
 
     return $res->finalize;
-};
+}
+
+1;
