@@ -1,0 +1,17 @@
+<html>
+    <head>
+    <script type="text/javascript">
+    function getWeather() {
+        var zip = document.getElementById("zip").value;
+        window.location = "http://" + window.location.hostname + "/zip/" + zip;
+    }
+    </script>
+    </head>
+    <body>
+    <form action="javascript:getWeather()">
+        <h3>Enter zip</h3>
+        <input type="text" id="zip">
+        <input type="submit" value="Get weather">
+    </form>
+    </body>
+</html>
