@@ -28,8 +28,7 @@ sub run {
     return $self->error('Invalid zip code') unless $zip =~ /\d{5}/;
 
     my $url   = "http://weather.yahooapis.com/forecastrss?p=$zip";
-    my $first = substr($zip, 0, 1);
-    my $path  = "cache/$first/$zip.html";
+    my $path  = "cache/$zip.html";
 
     my $weather_rss = get($url);
     return $self->error('Could not load weather data') unless defined $weather_rss;
